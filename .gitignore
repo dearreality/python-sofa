@@ -3,4 +3,4 @@
 doc/examples/free_field_HRIR.sofa
 build/
 dist/
-sofa.egg-info/
+*.egg-info
