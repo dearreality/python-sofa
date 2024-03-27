@@ -1,33 +1,24 @@
 from setuptools import setup, find_packages
+from os import getenv
 
-__version__ = "unknown"
 
-# "import" __version__
-for line in open("src/sofa/__init__.py"):
-    if line.startswith("__version__"):
-        exec(line)
-        break
+version = getenv("PYTHON_SOFA_VERSION", "0.0.0")
 
 setup(
     name="python-sofa",
-    version=__version__,
-    packages=find_packages('src'),
-	package_dir={'':'src'},
-    install_requires=[
-        'numpy',
-        'scipy>=1.2.0',
-        'netcdf4',
-        'datetime'
-    ],
+    version=version,
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    install_requires=["numpy", "scipy>=1.2.0", "netcdf4", "datetime"],
     author="Jannika Lossner",
     author_email="jnlossner@gmail.com",
     description="Python SOFA API",
-    long_description=open('README.rst').read(),
+    long_description=open("README.rst").read(),
     license="MIT",
     keywords="audio SOFA acoustics".split(),
     url="http://github.com/spatialaudio/python-sofa/",
-    platforms='any',
-    python_requires='>=3.5',
+    platforms="any",
+    python_requires=">=3.5",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",

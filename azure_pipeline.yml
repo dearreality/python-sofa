@@ -37,7 +37,7 @@ stages:
         workingDirectory: $(Build.Repository.LocalPath)
 
       - script: |
-          export BENCHMARK_BUTLER_VERSION=$(composedVersion)
+          export PYTHON_SOFA_VERSION=$(composedVersion)
           pip3 install wheel
           python3 setup.py bdist_wheel --dist-dir $(Build.Repository.LocalPath)/dist
         displayName: Package python-sofa python module
