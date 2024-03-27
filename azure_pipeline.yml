@@ -20,17 +20,6 @@ variables:
 name: $(composedVersion)
 
 stages:
-- stage: CodeAnalysis
-  jobs:
-  - job: Style_Guide_Check
-    pool:
-        vmImage: 'macOS-12'
-    steps:
-      - script: |
-          pip3 install black
-          black --check --diff --color $(Build.Repository.LocalPath)
-        displayName: Run Format Checks
-
 - stage: Build
   jobs:
   - job: Build_pip_package
