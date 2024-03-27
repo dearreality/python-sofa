@@ -14,7 +14,7 @@ variables:
   - group: github
   - group: JfrogPyPi
   - name: packageName
-    value: python-sofa
+    value: dr-python-sofa
   - template: prepare_internal_version_numbers.yml@AzurePipelineSchemas
 
 name: $(composedVersion)
@@ -40,11 +40,11 @@ stages:
           export PYTHON_SOFA_VERSION=$(composedVersion)
           pip3 install wheel
           python3 setup.py bdist_wheel --dist-dir $(Build.Repository.LocalPath)/dist
-        displayName: Package python-sofa python module
+        displayName: Package dr-python-sofa python module
         workingDirectory: $(Build.Repository.LocalPath)
 
       - publish: $(Build.Repository.LocalPath)/dist
-        artifact: python-sofa-pip-package
+        artifact: dr-python-sofa-pip-package
         displayName: Publish Pip Artifacts
 
   - job: Run_Win_Python_Tests
@@ -86,7 +86,7 @@ stages:
       displayName: Twine authenticate
 
     - script: |
-        python3 -m twine upload -r JfrogPypiUpload --config-file $(PYPIRC_PATH) $(Build.ArtifactStagingDirectory)/python-sofa-pip-package/*.whl
+        python3 -m twine upload -r JfrogPypiUpload --config-file $(PYPIRC_PATH) $(Build.ArtifactStagingDirectory)/dr-python-sofa-pip-package/*.whl
       displayName: Upload python package as $(composedVersion)
 
     - template: set_git_tag.yml@AzurePipelineSchemas
