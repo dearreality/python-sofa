@@ -3,8 +3,7 @@ Spatially Oriented Format for Acoustics (SOFA) API for Python
 
 Dear Reality fork
 
-# Installation
-
+Installation:
 ``pip install dr-python-sofa``
 
 Need to have access to Dear Reality pypi repository
