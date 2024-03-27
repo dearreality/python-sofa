@@ -21,33 +21,24 @@
 """
 """
 
-__all__=["implemented"]
-
-from . import base
-
-from . import GeneralFIR
-from . import GeneralTF
-from . import SimpleFreeFieldHRIR
-
-from . import GeneralFIRE
 from . import MultiSpeakerBRIR
-from . import SimpleFreeFieldTF
-from . import SimpleFreeFieldSOS
-#from . import SimpleHeadphoneIR
-from . import SingleRoomDRIR
+from . import GeneralFIRE
+from . import SimpleFreeFieldHRIR
+from . import GeneralTF
+from . import GeneralFIR
+
+__all__ = ["implemented"]
+
 
 List = {
-    "GeneralFIR" : GeneralFIR.GeneralFIR,
-    "GeneralTF" : GeneralTF.GeneralTF,
-    "SimpleFreeFieldHRIR" : SimpleFreeFieldHRIR.SimpleFreeFieldHRIR,
+    "GeneralFIR": GeneralFIR.GeneralFIR,
+    "GeneralTF": GeneralTF.GeneralTF,
+    "SimpleFreeFieldHRIR": SimpleFreeFieldHRIR.SimpleFreeFieldHRIR,
+    "GeneralFIRE": GeneralFIRE.GeneralFIRE,
+    "GeneralFIR-E": GeneralFIRE.GeneralFIRE,
+    "MultiSpeakerBRIR": MultiSpeakerBRIR.MultiSpeakerBRIR,
+}
 
-    "GeneralFIRE" : GeneralFIRE.GeneralFIRE,
-    "MultiSpeakerBRIR" : MultiSpeakerBRIR.MultiSpeakerBRIR,
-    "SimpleFreeFieldTF" : SimpleFreeFieldTF.SimpleFreeFieldTF,
-    "SimpleFreeFieldSOS" : SimpleFreeFieldSOS.SimpleFreeFieldSOS,
-#    "SimpleHeadphoneIR" : SimpleHeadphoneIR.SimpleHeadphoneIR,
-    "SingleRoomDRIR" : SingleRoomDRIR.SingleRoomDRIR
-    }
 
 def implemented():
     """Returns
@@ -55,5 +46,5 @@ def implemented():
     list
         Names of implemented SOFA conventions
     """
-    #TODO: versionize convention implementations
+    # TODO: versionize convention implementations
     return list(List.keys())

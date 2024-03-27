@@ -21,26 +21,24 @@
 """Classes for accessing DataType-specific measurement data.
 """
 
-__all__=["implemented", "FIR", "FIRE", "SOS", "TF"]
-
-from .FIR import FIR
-from .TF import TF
-
-from .FIRE import FIRE
 from .SOS import SOS
+from .FIRE import FIRE
+from .TF import TF
+from .FIR import FIR
+
+__all__ = ["implemented", "FIR", "FIRE", "FIR-E", "SOS", "TF"]
+
 
 ##############################
-List = {
-    "FIR" : FIR,
-    "TF" : TF,
-    "FIRE" : FIRE,
-    "SOS" : SOS
-}
-    
+List = {"FIR": FIR, "TF": TF, "FIR-E": FIRE, "FIRE": FIRE, "SOS": SOS}
+
+
 def get(database):
-    if database.DataType in List.keys(): return List[database.dataset.DataType](database)
+    if database.DataType in List.keys():
+        return List[database.dataset.DataType](database)
     print("Unknown DataType", database.DataType, ", returning FIR instead")
     return List["FIR"](database)
+
 
 def implemented():
     """Returns
