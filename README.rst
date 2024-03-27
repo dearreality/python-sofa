@@ -1,5 +1,15 @@
 Spatially Oriented Format for Acoustics (SOFA) API for Python
 =============================================================
+
+Dear Reality fork
+
+# Installation
+
+``pip install dr-python-sofa``
+
+Need to have access to Dear Reality pypi repository
+
+
 A Python API for reading, writing and creating SOFA files as defined by the SOFA conventions (version 1.0) found at https://www.sofaconventions.org/.
 
 Documentation:

@@ -1,0 +1,94 @@
+trigger:
+  - main
+  - test*
+
+resources:
+  repositories:
+    - repository: AzurePipelineSchemas
+      type: github
+      endpoint: dearreality
+      name: dearreality/AzurePipelineSchemas
+      ref: 9998fec52ab05e7cbc811ad0b452c03ed8232aea
+
+variables:
+  - group: github
+  - group: JfrogPyPi
+  - name: packageName
+    value: dr-python-sofa
+  - template: prepare_internal_version_numbers.yml@AzurePipelineSchemas
+
+name: $(composedVersion)
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build_pip_package
+    pool:
+        vmImage: 'macOS-12'
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: 3.9 
+          addToPath: true 
+
+      - script: |
+          pip3 install -r requirements.txt
+        displayName: Install python dependencies
+        workingDirectory: $(Build.Repository.LocalPath)
+
+      - script: |
+          export PYTHON_SOFA_VERSION=$(composedVersion)
+          pip3 install wheel
+          python3 setup.py bdist_wheel --dist-dir $(Build.Repository.LocalPath)/dist
+        displayName: Package dr-python-sofa python module
+        workingDirectory: $(Build.Repository.LocalPath)
+
+      - publish: $(Build.Repository.LocalPath)/dist
+        artifact: dr-python-sofa-pip-package
+        displayName: Publish Pip Artifacts
+
+  - job: Run_Win_Python_Tests
+    pool:
+        vmImage: 'windows-2019'
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: 3.9 
+          addToPath: true 
+    
+      - script: |
+          pip3 install -r requirements.txt
+        displayName: Install python dependencies
+        workingDirectory: $(Build.Repository.LocalPath)
+
+- stage: Delivery
+  dependsOn: Build
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+  - job: Upload_pip_package
+    pool:
+      vmImage: macOS-12
+    steps:
+    - checkout: AzurePipelineSchemas
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: current
+        path: $(Build.ArtifactStagingDirectory)
+
+    - script: |
+        pip3 install twine
+      displayName: Install twine
+
+    - task: TwineAuthenticate@1
+      inputs:
+        pythonUploadServiceConnection: default-pypi-local-upload
+      displayName: Twine authenticate
+
+    - script: |
+        python3 -m twine upload -r JfrogPypiUpload --config-file $(PYPIRC_PATH) $(Build.ArtifactStagingDirectory)/dr-python-sofa-pip-package/*.whl
+      displayName: Upload python package as $(composedVersion)
+
+    - template: set_git_tag.yml@AzurePipelineSchemas
+      parameters:
+        version: $(composedVersion)
