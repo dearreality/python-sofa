@@ -18,13 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from os import getenv
-
 """Python SOFA API for reading, writing and creating .sofa files.
 """
-__version__ = getenv("PYTHON_SOFA_VERSION", "0.0.0.dev0")
 
 __all__ = ["access", "conventions", "datatypes", "roomtypes", "spatial", "Database"]
 
+from . import access
+from . import datatypes
+from . import spatial
+from . import roomtypes
+from . import conventions
+from ._database import Database
 
 #####################################

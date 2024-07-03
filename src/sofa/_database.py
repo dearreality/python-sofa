@@ -20,7 +20,6 @@
 
 """SOFA API for Python.
 """
-__version__ = '0.1.0'
 
 from . import access
 from . import datatypes
@@ -59,7 +58,7 @@ class Database(access.ProxyObject):
         Parameters
         ----------
         path : str
-            Relative or absolute path to .sofa file    
+            Relative or absolute path to .sofa file
         convention : str
             Name of the SOFA convention to create, see :func:`sofa.conventions.implemented`
         dimensions : dict or int, optional
@@ -73,7 +72,7 @@ class Database(access.ProxyObject):
         sofa.dataset = ncdf.Dataset(path, mode="w")
         if dimensions is not None:
             try:
-                for d,v in dimensions.items():
+                for d, v in dimensions.items():
                     sofa.Dimensions.create_dimension(d, v)
             except:
                 sofa.Dimensions.create_dimension("M", dimensions)
@@ -81,11 +80,11 @@ class Database(access.ProxyObject):
         sofa._convention = conventions.List[convention]()
 
         sofa.convention.add_metadata(sofa)
-        sofa.DateCreated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        sofa.DateCreated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return sofa
 
     @staticmethod
-    def open(path, mode='r', parallel=False):
+    def open(path, mode="r", parallel=False):
         """Parameters
         ----------
         path : str
@@ -99,7 +98,7 @@ class Database(access.ProxyObject):
         -------
         database : :class:`sofa.Database`
         """
-        if mode == 'w':
+        if mode == "w":
             print("Invalid file creation method, use create instead.")
             return None
         sofa = Database()
@@ -117,7 +116,8 @@ class Database(access.ProxyObject):
             self.save()
         except:
             pass  # avoid errors when closing files in read mode
-        if self.dataset is not None: self.dataset.close()
+        if self.dataset is not None:
+            self.dataset.close()
 
         self._dataset = None
         self._convention = None
@@ -134,14 +134,16 @@ class Database(access.ProxyObject):
 
     def save(self):
         #        """Save the underlying NETCDF4 dataset"""
-        if self.dataset is None: return
-        self.DateModified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        if self.dataset is None:
+            return
+        self.DateModified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.dataset.sync()
 
     @property
-    def convention(self): return self._convention
+    def convention(self):
+        return self._convention
 
-    ## data    
+    ## data
     @property
     def Data(self):
         """DataType specific access for the measurement data, see :mod:`sofa.datatypes`"""
@@ -153,7 +155,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Dimensions is None: self._Dimensions = access.Dimensions(self.dataset)
+        if self._Dimensions is None:
+            self._Dimensions = access.Dimensions(self.dataset)
         return self._Dimensions
 
     ## experimental setup
@@ -163,7 +166,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Listener is None: self._Listener = spatial.SpatialObject(self, "Listener")
+        if self._Listener is None:
+            self._Listener = spatial.SpatialObject(self, "Listener")
         return self._Listener
 
     @property
@@ -172,7 +176,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Source is None: self._Source = spatial.SpatialObject(self, "Source")
+        if self._Source is None:
+            self._Source = spatial.SpatialObject(self, "Source")
         return self._Source
 
     @property
@@ -181,7 +186,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Receiver is None: self._Receiver = spatial.SpatialObject(self, "Receiver")
+        if self._Receiver is None:
+            self._Receiver = spatial.SpatialObject(self, "Receiver")
         return self._Receiver
 
     @property
@@ -190,7 +196,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Emitter is None: self._Emitter = spatial.SpatialObject(self, "Emitter")
+        if self._Emitter is None:
+            self._Emitter = spatial.SpatialObject(self, "Emitter")
         return self._Emitter
 
     ## room
@@ -206,7 +213,8 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Metadata is None: self._Metadata = access.Metadata(self.dataset)
+        if self._Metadata is None:
+            self._Metadata = access.Metadata(self.dataset)
         return self._Metadata
 
     ## direct access to variables
@@ -216,5 +224,6 @@ class Database(access.ProxyObject):
         if self.dataset is None:
             print("No dataset open!")
             return None
-        if self._Variables is None: self._Variables = access.DatasetVariables(self)
+        if self._Variables is None:
+            self._Variables = access.DatasetVariables(self)
         return self._Variables

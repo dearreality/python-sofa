@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.dynamic]
-version = { attr = "sofa.__version__" }
+version = { attr = "sofa.version.__version__" }
 
 [project]
 name = "dr-python-sofa"
