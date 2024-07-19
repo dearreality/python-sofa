@@ -20,9 +20,8 @@
 
 """Python SOFA API for reading, writing and creating .sofa files.
 """
-__version__ = "0.2.0"
 
-__all__=["access", "conventions", "datatypes", "roomtypes", "spatial", "Database"]
+__all__ = ["access", "conventions", "datatypes", "roomtypes", "spatial", "Database"]
 
 from . import access
 from . import datatypes

@@ -8,7 +8,7 @@ resources:
       type: github
       endpoint: dearreality
       name: dearreality/AzurePipelineSchemas
-      ref: 9998fec52ab05e7cbc811ad0b452c03ed8232aea
+      ref: 63e2b9c42094c898ef1692a88d32ab6fc3932e50
 
 variables:
   - group: github
@@ -28,18 +28,18 @@ stages:
     steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: 3.9 
+          versionSpec: 3.12 
           addToPath: true 
 
       - script: |
-          pip3 install -r requirements.txt
+          pip3 install .
+          pip3 install -e ".[dev]"
         displayName: Install python dependencies
         workingDirectory: $(Build.Repository.LocalPath)
 
       - script: |
-          export PYTHON_SOFA_VERSION=$(composedVersion)
-          pip3 install wheel
-          python3 setup.py bdist_wheel --dist-dir $(Build.Repository.LocalPath)/dist
+          export PYTHON_SOFA_VERSION=$(pythonComposedVersion)
+          python3 -m build
         displayName: Package dr-python-sofa python module
         workingDirectory: $(Build.Repository.LocalPath)
 
@@ -53,11 +53,11 @@ stages:
     steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: 3.9 
+          versionSpec: 3.12
           addToPath: true 
     
       - script: |
-          pip3 install -r requirements.txt
+          pip3 install .
         displayName: Install python dependencies
         workingDirectory: $(Build.Repository.LocalPath)
 
