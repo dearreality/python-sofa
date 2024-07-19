@@ -8,7 +8,7 @@ resources:
       type: github
       endpoint: dearreality
       name: dearreality/AzurePipelineSchemas
-      ref: 83af6307e63c2d4ff226979ada922171d51fb5ae
+      ref: 63e2b9c42094c898ef1692a88d32ab6fc3932e50
 
 variables:
   - group: github
